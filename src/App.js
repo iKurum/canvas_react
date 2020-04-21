@@ -1,24 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Canvas from './pages/Canvas';
+import Header from './pages/Header';
+import CanvasContext from './utils/SetContext';
+import css from './assets/css/App.module.css';
+import Init from './utils/CanvasInit';
 
 function App() {
+  const [option, setOption] = Init();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={css.App}>
+      <CanvasContext.Provider value={[option, setOption]}>
+        <Header />
+        <Canvas />
+      </CanvasContext.Provider>
     </div>
   );
 }
