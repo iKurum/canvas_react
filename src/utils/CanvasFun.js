@@ -24,7 +24,8 @@ function CanvasPar(
   // 角度
   this.direction = Math.floor(Math.random() * 360);
   // 颜色
-  this.color = o.color[Math.floor(Math.random() * o.color.length + 1) - 1];
+  const a = Array.from(o.color);
+  this.color = a[Math.floor(Math.random() * a.length + 1) - 1];
   // 半径
   this.radius = o.radius + o.variantRadius * Math.random();
   this.vector = {

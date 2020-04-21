@@ -1,23 +1,7 @@
 .App {
   height: 100vh;
-  text-align: center;
   background-color: #282c34;
-
-}
-
-header {
-  height: 10vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-p {
-  display: flex;
-  align-items: center;
 }
 
 input {

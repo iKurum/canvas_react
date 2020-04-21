@@ -3,7 +3,7 @@ import { useState } from 'react';
 export default function Init() {
 
   const [option, setOption] = useState({
-    color: ['green', '#66ccff', '#ffffff'],
+    color: new Set(['green', '#66ccff', '#ffffff']),
     number: 10,
     radius: 10,
     variantRadius: 10,

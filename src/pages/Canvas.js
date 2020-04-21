@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useContext } from 'react';
+import React, { createRef, useEffect, useContext, useCallback } from 'react';
 import CanvasContext from '../utils/SetContext';
 import CanvasPar from '../utils/CanvasFun';
 import '../assets/css/Canvas.module.css';
@@ -11,7 +11,6 @@ const Canvas = () => {
     const canvas = canvasRef.current;
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight * 0.9;
-    canvasArr = [];
     for (let i = 0; i < option.number; i++) {
       canvasArr.push(new CanvasPar(
         canvas.width,
@@ -20,15 +19,14 @@ const Canvas = () => {
         option,
         setOption));
     };
-    console.log(canvasArr);
-  }, [canvasRef, option]);
+  }, [canvasRef, canvasArr, option, setOption]);
 
   useEffect(() => {
     loop();
   });
 
   //循环动画
-  function loop() {
+  const loop = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) {
       return
@@ -40,7 +38,7 @@ const Canvas = () => {
       canvasArr[i].draw();
     }
     window.requestAnimationFrame(loop);
-  };
+  }, [canvasRef, canvasArr]);
 
   return (
     <canvas ref={canvasRef}>您的浏览器不支持canvas，请更换浏览器.</canvas>
