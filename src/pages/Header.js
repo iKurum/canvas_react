@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import CanvasContext from '../utils/SetContext';
+import { CanvasContext } from '../utils/SetContext';
 import css from '../assets/css/Header.module.css';
 
 function Header() {
