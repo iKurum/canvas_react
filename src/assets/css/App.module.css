@@ -4,10 +4,6 @@
   display: flex;
 }
 
-input {
-  margin: 0 2rem;
-}
-
 .link {
   color: #61dafb;
 }

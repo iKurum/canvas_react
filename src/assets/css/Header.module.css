@@ -1,0 +1,71 @@
+header {
+  width: 200px;
+  height: 100vh;
+  color: white;
+  font-size: calc(10px + 3vmin);
+  position: relative;
+  overflow: hidden;
+}
+
+.title {
+  max-height: 10vh;
+  font-size: calc(10px + 5vmin);
+  margin: 1rem;
+}
+
+nav {
+  position: relative;
+}
+
+nav input {
+  margin: 0 2rem;
+}
+
+nav>div {
+  height: 90vh;
+  position: absolute;
+  left: 8px;
+  overflow-y: scroll;
+}
+
+nav p {
+  margin: 3rem 0;
+}
+
+nav p:first-child {
+  margin: 0 0 3rem 0;
+}
+
+label {
+  display: block;
+}
+
+.label_animat {
+  font-size: calc(10px + 2vmin);
+}
+
+.label_flex {
+  display: flex;
+}
+
+.label_flex input {
+  margin: 0;
+}
+
+.label_flex span {
+  font-size: calc(10px + 1vmin);
+}
+
+.num_range {
+  display: block;
+}
+
+input[type="color"] {
+  display: inline-block;
+}
+
+.colorBox {
+  display: inline-block;
+  width: 3rem;
+  height: 2rem;
+}

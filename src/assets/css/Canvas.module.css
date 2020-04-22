@@ -2,3 +2,57 @@ canvas {
   border: 1px solid #ffffff;
   flex-grow: 1;
 }
+
+.switchBtn {
+  width: 45px;
+  height: 25px;
+  position: fixed;
+  top: 4px;
+  right: 10px;
+}
+
+.hiddenCheckbox,
+.switchArea,
+.switchToggle {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.hiddenCheckbox {
+  width: 45px;
+  height: 25px;
+  opacity: 0;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.switchArea {
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  background-color: #fafafa;
+}
+
+.switchToggle {
+  width: 23px;
+  height: 23px;
+  border: 1px solid #fafafa;
+  border-radius: 50%;
+  background-color: #282c34;
+}
+
+.hiddenCheckbox:checked~.switchArea {
+  background-color: #282c34;
+}
+
+.hiddenCheckbox:checked~.switchToggle {
+  border: 1px solid #282c34;
+  background-color: #fafafa;
+  left: 20px;
+}
+
+.switchArea,
+.switchToggle {
+  transition: All 0.3s ease;
+}
