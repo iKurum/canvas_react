@@ -8,16 +8,19 @@ const Canvas = () => {
   const [option, setOption] = useContext(CanvasContext);
   let canvasArr = [];
   const canvasRef = createRef();
+
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = option.w;
     canvas.height = option.h;
-    for (let i = 0; i < option.number; i++) {
+    for (let i = 0; i < (option.nav === 'animat' ? option.animation.number : 1); i++) {
       canvasArr.push(new CanvasPar(canvas, option));
     };
+    // console.log(canvasArr);
   }, [canvasRef, canvasArr, option]);
 
   useEffect(() => {
+    // console.log(option);
     loop();
     window.addEventListener('resize', () => {
       winResize()
@@ -49,23 +52,32 @@ const Canvas = () => {
     };
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // 动画循环
-    for (let i = 0; i < canvasArr.length; i++) {
-      switch (option.animat) {
-        case '无序':
-          canvasArr[i].update();
-          break;
-        default:
-          break;
-      };
-      canvasArr[i].draw();
+    switch (option.nav) {
+      case 'animat':
+        // 动画循环
+        for (let i = 0; i < canvasArr.length; i++) {
+          switch (option.animation.animat) {
+            case '无序':
+              canvasArr[i].update();
+              break;
+            default:
+              break;
+          };
+          canvasArr[i].draw();
+        }
+        // 连线循环
+        for (let i = 0; i < canvasArr.length; i++) {
+          linePoint(canvasArr[i], canvasArr, option, ctx)
+        }
+        // 动画
+        window.requestAnimationFrame(loop);
+        break;
+      case 'text':
+        canvasArr[0].draw();
+        break;
+      default:
+        break;
     }
-    // 连线循环
-    for (let i = 0; i < canvasArr.length; i++) {
-      linePoint(canvasArr[i], canvasArr, option, ctx)
-    }
-    // 动画
-    window.requestAnimationFrame(loop);
   }, [canvasRef, canvasArr, option]);
 
   return (
@@ -74,8 +86,6 @@ const Canvas = () => {
         <input
           type="checkbox"
           className={css.hiddenCheckbox}
-          name=""
-          value=""
           onChange={e => {
             setBg(e.target.checked);
           }}
@@ -88,7 +98,7 @@ const Canvas = () => {
         style={{ backgroundColor: bg ? '#fafafa' : '#282c34' }}
       >
         您的浏览器不支持canvas，请更换浏览器.
-    </canvas>
+      </canvas>
     </>
   );
 };

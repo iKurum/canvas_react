@@ -1,20 +1,13 @@
 //粒子类
 function CanvasPar(
   canvas,
-  o = {
-    color: [],
-    number: 0,
-    radius: 0,
-    variantRadius: 0,
-    speed: 0,
-    variantSpeed: 0
-  }) {
+  o = {}) {
   if (!canvas.getContext) {
     return
   };
   const ctx = canvas.getContext("2d");
   // 速度量
-  this.speed = o.speed + o.variantSpeed * Math.random();
+  this.speed = o.animation.speed + o.animation.variantSpeed * Math.random();
   // 角度
   this.direction = Math.floor(Math.random() * 360);
   // 颜色
@@ -23,13 +16,23 @@ function CanvasPar(
   // 半径
   this.radius = o.radius + o.variantRadius * Math.random();
   // x坐标
-  this.x = Math.floor((Math.random() * (o.w - this.radius)) + this.radius);
+  this.x = o.nav === 'text'
+    ?
+    o.text.x
+    :
+    Math.floor((Math.random() * (o.w - this.radius)) + this.radius);
   // y坐标
-  this.y = Math.floor((Math.random() * (o.h - this.radius)) + this.radius);
+  this.y = o.nav === 'text'
+    ?
+    o.text.y
+    :
+    Math.floor((Math.random() * (o.h - this.radius)) + this.radius);
   this.vector = {
     x: this.speed * Math.cos(this.direction),
     y: this.speed * Math.sin(this.direction)
   };
+  // 获取文字
+  this.text = o.text.text;
   // 更新坐标
   this.update = () => {
     this.border();
@@ -57,27 +60,60 @@ function CanvasPar(
       this.y = 0;
     };
   };
-  // 绘制
-  this.draw = () => {
+  // 粒子
+  this.particle = (x, y) => {
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.arc(x, y, this.radius, 0, Math.PI * 2);
     ctx.closePath();
     ctx.fillStyle = this.color;
     ctx.fill();
+  }
+  // 文字
+  this.drawText = () => {
+    console.log(o);
+    ctx.textAlign = "center";
+    ctx.font = o.text.size + "px arial";
+    ctx.fillText(this.text, this.x, this.y);
+    if (o.text.isParticle) {
+      const iData = ctx.getImageData(0, 0, o.w, o.h);
+      const buffer32 = new Uint32Array(iData.data.buffer);
+      o.text.placement = [];
+      for (let j = 0; j < o.h; j += o.text.grid.y) {
+        for (var i = 0; i < o.w; i += o.text.grid.x) {
+          if (buffer32[j * o.w + i]) {
+            o.text.placement.push({ x: i, y: j });
+          }
+        }
+      }
+      ctx.clearRect(0, 0, o.w, o.h);
+      for (let i = 0; i < o.text.placement.length; i++) {
+        this.particle(o.text.placement[i].x, o.text.placement[i].y);
+      }
+    }
+  }
+  // 正式绘制
+  this.draw = () => {
+    switch (o.nav) {
+      case 'animat':
+        this.particle(this.x, this.y);
+        break;
+      case 'text':
+        this.drawText();
+        break;
+      default:
+        break;
+    }
   };
 };
 
-// 计算两个粒子的距离
-function getDistance(p1, p2) {
-  return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
-}
+// 计算两个粒子的距离并划线
 function linePoint(point, hub, o, ctx) {
   for (let i = 0; i < hub.length; i++) {
     const d = getDistance(point, hub[i]);
-    const opacity = 1 - d / o.minDistance;
-    if (opacity > 0 && o.lineWidth > 0) {
-      ctx.lineWidth = o.lineWidth;
-      ctx.strokeStyle = colorRgb(o.lineColor, opacity) || o.lineColor;
+    const opacity = 1 - d / o.animation.minDistance;
+    if (opacity > 0 && o.animation.lineWidth > 0) {
+      ctx.lineWidth = o.animation.lineWidth;
+      ctx.strokeStyle = colorRgb(o.animation.lineColor, opacity) || o.animation.lineColor;
       ctx.beginPath();
       ctx.moveTo(point.x, point.y);
       ctx.lineTo(hub[i].x, hub[i].y);
@@ -86,6 +122,9 @@ function linePoint(point, hub, o, ctx) {
     }
   }
 };
+function getDistance(p1, p2) {
+  return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+}
 
 const colorRgb = (s, o) => {
   // 16进制颜色值的正则

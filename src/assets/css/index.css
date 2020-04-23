@@ -16,3 +16,52 @@ code {
   font-family: source-code-pro, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+header {
+  color: white;
+  font-size: calc(10px + 3vmin);
+  display: flex;
+  flex-direction: column;
+  padding-right: 3rem;
+  overflow: hidden;
+}
+
+nav {
+  position: relative;
+}
+
+nav input {
+  margin: 0 2rem;
+}
+
+nav>div {
+  width: 100vw;
+  height: 80vh;
+  position: absolute;
+  margin: 4px 0;
+  padding: 0 10px;
+  border-top: 1px solid #ffffff;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+nav p {
+  margin: 3rem 0;
+}
+
+nav p:first-child {
+  margin: 0 0 3rem 0;
+}
+
+label {
+  display: block;
+}
+
+input[type="color"] {
+  display: inline-block;
+}
+
+canvas {
+  border: 1px solid #ffffff;
+  flex-grow: 1;
+}
