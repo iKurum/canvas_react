@@ -39,7 +39,12 @@ const Canvas = () => {
       setOption({
         ...option,
         w: window.innerWidth - 202,
-        h: window.innerHeight - 2
+        h: window.innerHeight - 2,
+        text: {
+          ...option.text,
+          x: (window.innerWidth - 202) / 2,
+          y: (window.innerHeight - 2) / 2
+        }
       });
     }, 200);
   }

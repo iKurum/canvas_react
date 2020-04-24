@@ -29,7 +29,7 @@ function Text() {
           <input
             type="range"
             min="50"
-            max="150"
+            max="300"
             className={css.num_range}
             defaultValue={option.text.size}
             onChange={e => {
@@ -109,6 +109,85 @@ function Text() {
                   grid: {
                     ...option.text.grid,
                     y: parseInt(e.target.value)
+                  }
+                }
+              });
+            }} />
+        </label>
+      </p>
+      <p>shadow :
+        <label className={css.label_flex}>
+          <span>blur：</span>
+          <input
+            type="range"
+            min="0"
+            max="10"
+            defaultValue={option.text.shadow.blur}
+            onChange={e => {
+              setOption({
+                ...option,
+                text: {
+                  ...option.text,
+                  shadow: {
+                    ...option.text.shadow,
+                    blur: e.target.value
+                  }
+                }
+              });
+            }} />
+        </label>
+        <label className={css.label_flex}>
+          <span>x &ensp;&ensp;：</span>
+          <input
+            type="range"
+            min="-100"
+            max="100"
+            defaultValue={option.text.shadow.offsetX}
+            onChange={e => {
+              setOption({
+                ...option,
+                text: {
+                  ...option.text,
+                  shadow: {
+                    ...option.text.shadow,
+                    offsetX: e.target.value
+                  }
+                }
+              });
+            }} />
+        </label>
+        <label className={css.label_flex}>
+          <span>y &ensp;&ensp;：</span>
+          <input
+            type="range"
+            min="-100"
+            max="100"
+            defaultValue={option.text.shadow.offsetY}
+            onChange={e => {
+              setOption({
+                ...option,
+                text: {
+                  ...option.text,
+                  shadow: {
+                    ...option.text.shadow,
+                    offsetY: e.target.value
+                  }
+                }
+              });
+            }} />
+        </label>
+        <label className={css.label_flex}>
+          <span>颜色：</span>
+          <input
+            type="color"
+            onChange={e => {
+              setOption({
+                ...option,
+                text: {
+                  ...option.text,
+                  shadow: {
+                    ...option.text.shadow,
+                    color: e.target.value
                   }
                 }
               });

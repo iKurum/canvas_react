@@ -176,7 +176,10 @@ function Animat() {
             onChange={e => {
               setOption({
                 ...option,
-                lineColor: e.target.value
+                animation: {
+                  ...option.animation,
+                  lineColor: e.target.value
+                }
               });
             }} />
         </label>

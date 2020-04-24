@@ -6,9 +6,9 @@ export default function Init() {
     nav: 'text',
     w: window.innerWidth - 202,
     h: window.innerHeight - 2,
-    color: new Set(['#008000', '#66ccff']),
-    radius: 1,
-    variantRadius: 10,
+    color: new Set(['#66ccff', '#fafafa']),
+    radius: 4,
+    variantRadius: 0,
     animation: {
       number: 20,
       speed: 1,
@@ -20,14 +20,19 @@ export default function Init() {
     },
     text: {
       text: 'Hello Canvas',
-      isParticle: true,
       x: (window.innerWidth - 202) / 2,
       y: (window.innerHeight - 2) / 2,
       grid: {
         x: 10,
         y: 10
       },
-      size: 100,
+      shadow: {
+        blur: 0,
+        color: '#000000',
+        offsetX: 0,
+        offsetY: 0
+      },
+      size: 140,
       placement: []
     }
   });

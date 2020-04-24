@@ -11,8 +11,7 @@ function CanvasPar(
   // 角度
   this.direction = Math.floor(Math.random() * 360);
   // 颜色
-  const a = Array.from(o.color);
-  this.color = a[Math.floor(Math.random() * a.length + 1) - 1];
+  this.color = Array.from(o.color)[Math.floor(Math.random() * Array.from(o.color).length + 1) - 1];
   // 半径
   this.radius = o.radius + o.variantRadius * Math.random();
   // x坐标
@@ -61,41 +60,50 @@ function CanvasPar(
     };
   };
   // 粒子
-  this.particle = (x, y) => {
+  this.particle = (x, y, c) => {
     ctx.beginPath();
     ctx.arc(x, y, this.radius, 0, Math.PI * 2);
     ctx.closePath();
-    ctx.fillStyle = this.color;
+    ctx.fillStyle = c;
     ctx.fill();
   }
   // 文字
   this.drawText = () => {
-    console.log(o);
+    // console.log(o);
     ctx.textAlign = "center";
     ctx.font = o.text.size + "px arial";
+    
     ctx.fillText(this.text, this.x, this.y);
-    if (o.text.isParticle) {
-      const iData = ctx.getImageData(0, 0, o.w, o.h);
-      const buffer32 = new Uint32Array(iData.data.buffer);
-      o.text.placement = [];
-      for (let j = 0; j < o.h; j += o.text.grid.y) {
-        for (var i = 0; i < o.w; i += o.text.grid.x) {
-          if (buffer32[j * o.w + i]) {
-            o.text.placement.push({ x: i, y: j });
-          }
+    const iData = ctx.getImageData(0, 0, o.w, o.h);
+    const buffer32 = new Uint32Array(iData.data.buffer);
+    // shadow
+    ctx.shadowBlur = o.text.shadow.blur;
+    ctx.shadowOffsetX = o.text.shadow.offsetX;
+    ctx.shadowOffsetY = o.text.shadow.offsetY;
+    ctx.shadowColor = o.text.shadow.color;
+    o.text.placement = [];
+    for (let j = 0; j < o.h; j += o.text.grid.y) {
+      for (var i = 0; i < o.w; i += o.text.grid.x) {
+        if (buffer32[j * o.w + i]) {
+          o.text.placement.push({ x: i, y: j });
         }
       }
-      ctx.clearRect(0, 0, o.w, o.h);
-      for (let i = 0; i < o.text.placement.length; i++) {
-        this.particle(o.text.placement[i].x, o.text.placement[i].y);
-      }
     }
+    ctx.clearRect(0, 0, o.w, o.h);
+    for (let i = 0; i < o.text.placement.length; i++) {
+      this.particle(
+        o.text.placement[i].x,
+        o.text.placement[i].y,
+        Array.from(o.color)[Math.floor(Math.random() * Array.from(o.color).length + 1) - 1]
+      );
+    }
+    
   }
   // 正式绘制
   this.draw = () => {
     switch (o.nav) {
       case 'animat':
-        this.particle(this.x, this.y);
+        this.particle(this.x, this.y, this.color);
         break;
       case 'text':
         this.drawText();
@@ -145,7 +153,7 @@ const colorRgb = (s, o) => {
     for (let i = 1; i < 7; i += 2) {
       colorChange.push(parseInt("0x" + color.slice(i, i + 2)));
     }
-    return "RGB(" + colorChange.join(",") + "," + o +")";
+    return "RGB(" + colorChange.join(",") + "," + o + ")";
   } else {
     return color;
   }
