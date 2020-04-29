@@ -1,6 +1,6 @@
 import React, { useState, createRef, useEffect, useContext, useCallback } from 'react';
 import { CanvasContext } from '../utils/SetContext';
-import { CanvasPar, linePoint } from '../utils/CanvasFun';
+import { CanvasPar, linePoint } from '../utils/canvasfun/CanvasFun';
 import css from '../assets/css/Canvas.module.css';
 
 const Canvas = () => {
